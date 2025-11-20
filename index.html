@@ -1008,15 +1008,15 @@ document.getElementById("search-btn").addEventListener("click", function () {
     const query = document.getElementById("search-input").value.trim();
     const resultsDiv = document.getElementById("search-results");
 
-    if (query === "") {
+    if (!query) {
         resultsDiv.innerHTML = "<p class='text-center text-gray-500'>Please enter a search term.</p>";
         return;
     }
 
-    // Show loading message
+    // Show loading
     resultsDiv.innerHTML = "<p class='text-center text-gray-500'>Searching...</p>";
 
-    // Fetch from Semantic Scholar
+    // Fetch Semantic Scholar API
     fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&limit=5&fields=title,authors,year,url`)
         .then(res => res.json())
         .then(data => {
@@ -1025,24 +1025,14 @@ document.getElementById("search-btn").addEventListener("click", function () {
                 return;
             }
 
-            // Build output UI
             let html = "";
             data.data.forEach(paper => {
                 html += `
                     <div class="p-5 bg-white border rounded-2xl shadow-md hover:shadow-lg transition">
                         <h3 class="text-xl font-semibold text-gray-800">${paper.title}</h3>
-
-                        <p class="text-gray-600 mt-1 text-sm">
-                            <strong>Authors:</strong> ${paper.authors?.map(a => a.name).join(", ") || "Unknown"}
-                        </p>
-
-                        <p class="text-gray-600 text-sm">
-                            <strong>Year:</strong> ${paper.year || "N/A"}
-                        </p>
-
-                        <a href="${paper.url}" target="_blank" class="text-blue-600 mt-2 inline-block font-medium hover:underline">
-                            View Paper →
-                        </a>
+                        <p class="text-gray-600 mt-1 text-sm"><strong>Authors:</strong> ${paper.authors?.map(a => a.name).join(", ") || "Unknown"}</p>
+                        <p class="text-gray-600 text-sm"><strong>Year:</strong> ${paper.year || "N/A"}</p>
+                        <a href="${paper.url}" target="_blank" class="text-blue-600 mt-2 inline-block font-medium hover:underline">View Paper →</a>
                     </div>
                 `;
             });
@@ -1064,4 +1054,5 @@ document.getElementById("search-btn").addEventListener("click", function () {
 
 
 </html>
+
 
