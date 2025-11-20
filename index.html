@@ -139,7 +139,9 @@
       </div>
      </div>
     </div>
-   </section><!-- About Section -->
+   </section>
+             <div id="search-results" class="max-w-4xl mx-auto px-4 mt-6 space-y-4"></div>
+             <!-- About Section -->
    <section id="about" class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4">
      <div class="text-center mb-12">
@@ -1008,5 +1010,58 @@
 <script>
   emailjs.init("OQa69EzN9-YlsMTZr"); // Replace with your EmailJS public key
 </script>
+             <script>
+document.getElementById("search-btn").addEventListener("click", function () {
+    const query = document.getElementById("search-input").value.trim();
+    const resultsDiv = document.getElementById("search-results");
+
+    if (query === "") {
+        resultsDiv.innerHTML = "<p class='text-center text-gray-500'>Please enter a search term.</p>";
+        return;
+    }
+
+    // Show loading message
+    resultsDiv.innerHTML = "<p class='text-center text-gray-500'>Searching...</p>";
+
+    // Fetch from Semantic Scholar
+    fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&limit=5&fields=title,authors,year,url`)
+        .then(res => res.json())
+        .then(data => {
+            if (!data.data || data.data.length === 0) {
+                resultsDiv.innerHTML = "<p class='text-center text-gray-500'>No results found.</p>";
+                return;
+            }
+
+            // Build output UI
+            let html = "";
+            data.data.forEach(paper => {
+                html += `
+                    <div class="p-5 bg-white border rounded-2xl shadow-md hover:shadow-lg transition">
+                        <h3 class="text-xl font-semibold text-gray-800">${paper.title}</h3>
+
+                        <p class="text-gray-600 mt-1 text-sm">
+                            <strong>Authors:</strong> ${paper.authors?.map(a => a.name).join(", ") || "Unknown"}
+                        </p>
+
+                        <p class="text-gray-600 text-sm">
+                            <strong>Year:</strong> ${paper.year || "N/A"}
+                        </p>
+
+                        <a href="${paper.url}" target="_blank" class="text-blue-600 mt-2 inline-block font-medium hover:underline">
+                            View Paper →
+                        </a>
+                    </div>
+                `;
+            });
+
+            resultsDiv.innerHTML = html;
+        })
+        .catch(err => {
+            console.error(err);
+            resultsDiv.innerHTML = "<p class='text-center text-red-500'>Error fetching results.</p>";
+        });
+});
+</script>
+
 
 </html>
