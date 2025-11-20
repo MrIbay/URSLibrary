@@ -1004,6 +1004,8 @@
         console.error('EmailJS error:', error);
       });
   });
+
+// --- Open Library Search Integration ---
 document.getElementById("search-btn").addEventListener("click", function () {
     const query = document.getElementById("search-input").value.trim();
     const resultsDiv = document.getElementById("search-results");
@@ -1013,26 +1015,24 @@ document.getElementById("search-btn").addEventListener("click", function () {
         return;
     }
 
-    // Show loading
     resultsDiv.innerHTML = "<p class='text-center text-gray-500'>Searching...</p>";
 
-    // Fetch Semantic Scholar API
-    fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&limit=5&fields=title,authors,year,url`)
+    fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=5`)
         .then(res => res.json())
         .then(data => {
-            if (!data.data || data.data.length === 0) {
+            if (!data.docs || data.docs.length === 0) {
                 resultsDiv.innerHTML = "<p class='text-center text-gray-500'>No results found.</p>";
                 return;
             }
 
             let html = "";
-            data.data.forEach(paper => {
+            data.docs.forEach(book => {
                 html += `
                     <div class="p-5 bg-white border rounded-2xl shadow-md hover:shadow-lg transition">
-                        <h3 class="text-xl font-semibold text-gray-800">${paper.title}</h3>
-                        <p class="text-gray-600 mt-1 text-sm"><strong>Authors:</strong> ${paper.authors?.map(a => a.name).join(", ") || "Unknown"}</p>
-                        <p class="text-gray-600 text-sm"><strong>Year:</strong> ${paper.year || "N/A"}</p>
-                        <a href="${paper.url}" target="_blank" class="text-blue-600 mt-2 inline-block font-medium hover:underline">View Paper →</a>
+                        <h3 class="text-xl font-semibold text-gray-800">${book.title}</h3>
+                        <p class="text-gray-600 mt-1 text-sm"><strong>Author:</strong> ${book.author_name ? book.author_name.join(", ") : "Unknown"}</p>
+                        <p class="text-gray-600 text-sm"><strong>First Published:</strong> ${book.first_publish_year || "N/A"}</p>
+                        ${book.key ? `<a href="https://openlibrary.org${book.key}" target="_blank" class="text-blue-600 mt-2 inline-block font-medium hover:underline">View Book →</a>` : ""}
                     </div>
                 `;
             });
@@ -1044,6 +1044,14 @@ document.getElementById("search-btn").addEventListener("click", function () {
             resultsDiv.innerHTML = "<p class='text-center text-red-500'>Error fetching results.</p>";
         });
 });
+
+// Optional: trigger search on Enter key
+document.getElementById("search-input").addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        document.getElementById("search-btn").click();
+    }
+});
 </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99734d764318bc55',t:'MTc2MTkxNTI4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
@@ -1054,5 +1062,6 @@ document.getElementById("search-btn").addEventListener("click", function () {
 
 
 </html>
+
 
 
