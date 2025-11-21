@@ -992,6 +992,29 @@ document.getElementById("search-input").addEventListener("keypress", function (e
         document.getElementById("search-btn").click();
     }
 });
+// Make chips interactive
+const chips = document.querySelectorAll("#home .floating-card span");
+const searchInput = document.querySelector("#search-input");
+const searchButton = document.querySelector("#search-btn");
+
+chips.forEach(chip => {
+  chip.addEventListener("click", () => {
+
+    // Remove active state from all chips
+    chips.forEach(c => 
+      c.classList.remove("bg-gray-800", "text-white")
+    );
+
+    // Add active state to clicked chip
+    chip.classList.add("bg-gray-800", "text-white");
+
+    // Put the chip text into the search bar
+    searchInput.value = chip.innerText;
+
+    // Trigger search
+    searchButton.click();
+  });
+});
 </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99734d764318bc55',t:'MTc2MTkxNTI4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
@@ -1002,6 +1025,7 @@ document.getElementById("search-input").addEventListener("keypress", function (e
 
 
 </html>
+
 
 
 
