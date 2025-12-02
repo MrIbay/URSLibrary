@@ -1,1040 +1,452 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>URS Morong Digital Library</title>
-  <script src="/_sdk/element_sdk.js"></script>
-  <script src="/_sdk/data_sdk.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Premium Pre‑Loved iPhones</title>
+
+  <!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+<script>
+  emailjs.init("0WUHJFvOpwfXJZq8s"); // replace with your EmailJS public key
+</script>
+
   <style>
-        body {
-            box-sizing: border-box;
-        }
-        
-        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        .urs-gradient {
-            background: linear-gradient(135deg, #003366 0%, #0066cc 50%, #004499 100%);
-        }
-        
-        .book-spine {
-            background: linear-gradient(90deg, #0066cc 0%, #004499 100%);
-            box-shadow: inset -2px 0 4px rgba(0,0,0,0.2);
-        }
-        
-        .login-modal {
-            backdrop-filter: blur(10px);
-            background: rgba(0, 0, 0, 0.5);
-        }
-        
-        .bookmark-pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        .floating-card {
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        
-        .search-glow:focus {
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 0 20px rgba(59, 130, 246, 0.2);
-        }
-        
-        .category-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .book-animation {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .book-animation:hover {
-            transform: scale(1.05) rotateY(5deg);
-        }
-        
-        .academic-serif {
-            font-family: 'Crimson Text', serif;
-        }
-        
-        .modern-sans {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .nav-link.active {
-            color: #93c5fd !important;
-        }
-    </style>
-  <style>@view-transition { navigation: auto; }</style>
- </head>
- <body class="min-h-full bg-gray-50 modern-sans">
-  <main class="min-h-full"><!-- Header with URS Gradient -->
-   <header class="urs-gradient text-white relative overflow-hidden">
-    <div class="absolute inset-0 opacity-10">
-     <svg class="w-full h-full" viewbox="0 0 100 100" preserveaspectratio="none"><defs>
-       <pattern id="books" x="0" y="0" width="20" height="20" patternunits="userSpaceOnUse">
-        <rect width="2" height="20" fill="white" opacity="0.1" />
-        <rect x="4" width="2" height="20" fill="white" opacity="0.1" />
-        <rect x="8" width="2" height="20" fill="white" opacity="0.1" />
-       </pattern>
-      </defs> <rect width="100" height="100" fill="url(#books)" />
-     </svg>
+    :root {
+      --bg:#0f1220;
+      --ink:#f5f5f7;
+      --muted:#c7c7d1;
+      --accent:#b39ddb;
+      --cta:#7e57c2;
+      --cta-hover:#6b4bb2;
+      --shadow:0 8px 24px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;scroll-behavior:smooth;}
+    a{color:inherit;text-decoration:none}
+
+    /* Hero with background image */
+    .hero {
+      background:url('hero-bg.jpg') center/cover no-repeat;
+      position:relative;
+      color:white;
+      padding:120px 24px 80px;
+      text-align:center;
+    }
+    .hero::after {
+      content:"";
+      position:absolute;inset:0;
+      background:rgba(15,18,32,.65);
+    }
+    .hero-content {
+      position:relative;z-index:1;max-width:900px;margin:auto;
+    }
+    .hero h1 {font-size:clamp(36px,5vw,60px);margin-bottom:20px}
+    .hero p {color:var(--muted);margin-bottom:30px;font-size:18px}
+    .btn {
+      display:inline-block;padding:14px 22px;border-radius:12px;
+      font-weight:600;cursor:pointer;transition:.2s;
+    }
+    .btn-primary {background:var(--cta);color:white;box-shadow:var(--shadow)}
+    .btn-primary:hover {background:var(--cta-hover);transform:translateY(-2px)}
+    .btn-ghost {
+      border: 1px solid #000;  
+      color: white;            
+      background-color: #000;   
+    }
+    .btn-ghost:hover {
+      background-color: #222;  
+      border-color: #fff;      
+    }
+
+    /* Sections */
+    .wrap {max-width:1200px;margin:auto;padding:60px 24px}
+    h2 {font-size:32px;margin-bottom:30px;text-align:center}
+
+    /* Product grid */
+    .grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+    .product {
+      background:#1a1d2f;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);
+      display:flex;flex-direction:column
+    }
+    .product img {width:100%;height:220px;object-fit:cover}
+    .info {padding:20px}
+    .info h3 {margin-bottom:8px}
+    .price {font-weight:700;margin-bottom:12px}
+    .actions {display:flex;gap:10px}
+    .btn-sm {flex:1;padding:10px;border-radius:10px;font-size:14px}
+    .btn-sm.primary {background:var(--cta);color:white}
+    .btn-sm.primary:hover {background:var(--cta-hover)}
+
+    /* Benefits */
+    .benefits {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+    .card {background:#1a1d2f;padding:20px;border-radius:16px;box-shadow:var(--shadow)}
+    .card h3 {margin-bottom:10px}
+
+    /* Testimonials */
+    .testimonials {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+    .quote {background:#1a1d2f;padding:20px;border-radius:16px;box-shadow:var(--shadow);font-style:italic}
+
+    /* FAQ */
+    .faq {display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+    .faq-item {background:#1a1d2f;padding:20px;border-radius:16px;box-shadow:var(--shadow)}
+
+    /* Footer */
+    footer {background:#11142a;color:var(--muted);padding:30px;text-align:center;margin-top:40px}
+    footer a {color:var(--accent)}
+    
+    /* Modal checklist */
+    .overlay {position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:100}
+    .modal {background:#1a1d2f;padding:24px;border-radius:16px;max-width:600px;color:var(--ink)}
+    .close {float:right;cursor:pointer;font-weight:bold}
+
+    /* Navigation Button */
+    .nav-btn {
+      margin-left:auto;
+      background:var(--cta);
+      color:white;
+      padding:8px 16px;
+      border-radius:8px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.2s;
+    }
+    .nav-btn:hover {background:var(--cta-hover)}
+
+    /* Navigation Links */
+    .nav-links {
+      display:flex;
+      gap:14px;
+      margin-left:auto;
+    }
+    .nav-links a {
+      color:white;
+      font-weight:500;
+      padding:8px 12px;
+      border-radius:8px;
+      transition:.2s;
+    }
+    .nav-links a:hover {
+      background:var(--cta);
+      color:white;
+    }
+
+    /* Contact Form */
+    .contact-section {background:#11142a;padding:60px 24px;}
+    .floating-card {background:#1a1d2f;padding:40px;border-radius:24px;max-width:700px;margin:auto;}
+    .floating-card input, .floating-card textarea {width:100%;padding:16px;border-radius:12px;border:1px solid #444;background:#0f1220;color:white;outline:none;margin-top:6px;margin-bottom:20px;}
+    .floating-card button {background:var(--cta);color:white;padding:14px 24px;border-radius:12px;font-weight:600;cursor:pointer;}
+    .floating-card button:hover {background:var(--cta-hover);} 
+  </style>
+</head>
+<body>
+
+<!-- Header / Logo Bar -->
+<header style="width:100%;padding:16px 24px;background:#11142a;display:flex;align-items:center;gap:14px;box-shadow:0 4px 12px rgba(0,0,0,0.4);position:sticky;top:0;z-index:200;">
+  <img src="logo.png" alt="Business Logo" style="width:48px;height:48px;object-fit:contain;border-radius:10px;">
+  <h1 style="font-size:22px;font-weight:700;color:white;">Kath and Paul's Tech Hub</h1>
+  <nav class="nav-links">
+    <a href="#hero">Home</a>
+    <a href="#catalog">Catalog</a>
+    <a href="#benefits">Benefits</a>
+    <a href="#testimonials">Testimonials</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div id="cart">🛒 Cart (0)</div>
+</header>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div style="max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;position:relative;z-index:1;">
+    <div class="hero-content" style="flex:1; min-width:300px;">
+      <h1>Premium iPhones, Pre-loved. Priced Right.</h1>
+      <p>Certified devices with verified battery health, honest parts disclosure, and fast delivery.</p>
+      <a href="#catalog" class="btn btn-primary">Browse Available iPhones</a>
+      <button class="btn btn-ghost" id="openChecklist">See Certification Checklist</button>
     </div>
-    <div class="relative z-10 max-w-7xl mx-auto px-4 py-8">
-     <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-4"><!-- URS Logo -->
-<div class="w-16 h-17 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden">
-    <img src="URS.jpg" alt="URS Logo" class="w-full h-full object-contain">
-</div>
-
-       <div>
-        <h1 id="library-title" class="text-3xl font-bold academic-serif">URS Morong Digital Library</h1>
-        <p class="text-blue-100 mt-1">University of Rizal System - Morong Campus</p>
-       </div>
-      </div>
-
-     </div>
-            <nav class="flex flex-wrap justify-center space-x-6 mt-6"><a href="#home" class="nav-link text-blue-300 hover:text-blue-200 transition-colors font-medium">Home</a> <a href="#about" class="nav-link text-white hover:text-blue-200 transition-colors font-medium">About</a> <a href="#collections" class="nav-link text-white hover:text-blue-200 transition-colors font-medium">Resources/Collections</a> <a href="#inquiry" class="nav-link text-white hover:text-blue-200 transition-colors font-medium">Help</a> <a 
-       </nav> 
-             
-     <div class="mt-8 text-center">
-      <p id="welcome-message" class="text-xl text-blue-100 academic-serif italic">Discover Knowledge, Inspire Learning, Transform Lives</p>
-     </div>
-    </div>
-   </header><!-- Search Section -->
-   <section id="home" class="relative -mt-8 z-20">
-    <div class="max-w-4xl mx-auto px-4">
-     <div class="floating-card rounded-2xl p-8">
-      <div class="text-center mb-6">
-       <h2 class="text-2xl font-semibold text-gray-800 academic-serif">Search Our Collection</h2>
-       <p class="text-gray-600 mt-2">Access thousands of books, journals, and digital resources</p>
-      </div>
-      <div class="relative"><input type="text" id="search-input" placeholder="Search books, authors, subjects..." class="w-full px-6 py-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none search-glow transition-all">
-       <div class="absolute right-3 top-1/2 transform -translate-y-1/2 flex space-x-2"><button id="search-btn" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"> Search </button>
-       </div>
-      </div>
-      <div class="flex flex-wrap justify-center gap-3 mt-6"><span class="px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm font-medium cursor-pointer hover:bg-blue-100 transition-colors">Engineering</span> <span class="px-4 py-2 bg-purple-50 text-purple-700 rounded-full text-sm font-medium cursor-pointer hover:bg-purple-100 transition-colors">Business</span> <span class="px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-medium cursor-pointer hover:bg-green-100 transition-colors">Education</span> <span class="px-4 py-2 bg-orange-50 text-orange-700 rounded-full text-sm font-medium cursor-pointer hover:bg-orange-100 transition-colors">Computer Science</span> <span class="px-4 py-2 bg-red-50 text-red-700 rounded-full text-sm font-medium cursor-pointer hover:bg-red-100 transition-colors">Liberal Arts</span>
-      </div>
-     </div>
-    </div>
-   </section>
-             <div id="search-results" class="max-w-4xl mx-auto px-4 mt-6 space-y-4"></div>
-             <!-- About Section -->
-   <section id="about" class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4">
-     <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold text-gray-800 academic-serif mb-4">About URS Morong Library</h2>
-      <p class="text-xl text-gray-600 max-w-3xl mx-auto">Empowering academic excellence through innovative digital resources and comprehensive learning support services.</p>
-     </div>
-     <div class="grid lg:grid-cols-3 gap-8 mb-16"><!-- Mission -->
-      <div class="text-center">
-       <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-       </div>
-       <h3 class="text-2xl font-bold text-gray-800 mb-4">Innovation</h3>
-       <p class="text-gray-600">Leveraging cutting-edge technology to provide seamless access to digital resources and enhance the learning experience.</p>
-      </div><!-- Values -->
-      <div class="text-center">
-       <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-       </div>
-       <h3 class="text-2xl font-bold text-gray-800 mb-4">Community</h3>
-       <p class="text-gray-600">Building a collaborative learning environment that connects students, faculty, and researchers across all disciplines.</p>
-      </div><!-- Excellence -->
-      <div class="text-center">
-       <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <svg class="w-10 h-10 text-purple-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-        </svg>
-       </div>
-       <h3 class="text-2xl font-bold text-gray-800 mb-4">Excellence</h3>
-       <p class="text-gray-600">Maintaining the highest standards in academic resources, research support, and information literacy services.</p>
-      </div>
-     </div><!-- Statistics -->
-     <div class="grid md:grid-cols-4 gap-8 bg-gray-50 rounded-2xl p-8">
-      <div class="text-center">
-       <div class="text-3xl font-bold text-blue-600 mb-2">
-        500+
-       </div>
-       <div class="text-gray-600">
-        Digital Resources
-       </div>
-      </div>
-      <div class="text-center">
-       <div class="text-3xl font-bold text-green-600 mb-2">
-        50+
-       </div>
-       <div class="text-gray-600">
-        Active Users
-       </div>
-      </div>
-      <div class="text-center">
-       <div class="text-3xl font-bold text-purple-600 mb-2">
-        24/7
-       </div>
-       <div class="text-gray-600">
-        Digital Access
-       </div>
-      </div>
-      <div class="text-center">
-       <div class="text-3xl font-bold text-orange-600 mb-2">
-        1
-       </div>
-       <div class="text-gray-600">
-        Database
-       </div>
-      </div>
-     </div>
-    </div>
-   </section><!-- Collections Section -->
-   <section id="collections" class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4">
-     <h2 class="text-3xl font-bold text-center text-gray-800 academic-serif mb-12">Digital Collections &amp; Resources</h2>
-     <div class="grid md:grid-cols-3 gap-8"><!-- Digital Books -->
-      <div class="floating-card rounded-xl p-6 category-hover transition-all duration-300 relative"><button class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors bookmark-btn" data-book="Digital Books Collection" data-author="URS Library" data-category="digital-books">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-        </svg></button>
-       <div class="flex items-center mb-4">
-        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-         <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-         </svg>
-        </div>
-        <h3 class="text-xl font-semibold text-gray-800 ml-3">Digital Books</h3>
-       </div>
-       <p class="text-gray-600 mb-4">Access over 50,000 digital books across all disciplines with advanced search and bookmark features.</p>
-       <div class="flex justify-between items-center"><span class="text-2xl font-bold text-blue-600">100+</span> <button class="text-blue-600 hover:text-blue-800 font-medium">Browse →</button>
-       </div>
-      </div><!-- Research Journals -->
-      <div class="floating-card rounded-xl p-6 category-hover transition-all duration-300 relative"><button class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors bookmark-btn" data-book="Research Journals Collection" data-author="Academic Publishers" data-category="journals">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-        </svg></button>
-       <div class="flex items-center mb-4">
-        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-         <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-         </svg>
-        </div>
-        <h3 class="text-xl font-semibold text-gray-800 ml-3">Research Journals</h3>
-       </div>
-       <p class="text-gray-600 mb-4">Peer-reviewed journals and academic publications from leading publishers worldwide.</p>
-       <div class="flex justify-between items-center"><span class="text-2xl font-bold text-purple-600">100+</span> <button class="text-purple-600 hover:text-purple-800 font-medium">Explore →</button>
-       </div>
-      </div><!-- Thesis Archive -->
-      <div class="floating-card rounded-xl p-6 category-hover transition-all duration-300 relative"><button class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors bookmark-btn" data-book="URS Thesis Archive" data-author="URS Students &amp; Faculty" data-category="thesis">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-        </svg></button>
-       <div class="flex items-center mb-4">
-        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-         </svg>
-        </div>
-        <h3 class="text-xl font-semibold text-gray-800 ml-3">Thesis Archive</h3>
-       </div>
-       <p class="text-gray-600 mb-4">URS student research and thesis collection with full-text search capabilities.</p>
-       <div class="flex justify-between items-center"><span class="text-2xl font-bold text-green-600">100+</span> <button class="text-green-600 hover:text-green-800 font-medium">View →</button>
-       </div>
-      </div>
-      </div><div></div>
-
-        <!-- Inquiry Section -->
-<section id="inquiry" class="w-full py-20 bg-white">
-  <div class="max-w-6xl mx-auto px-4">
-
-    <!-- Header -->
-    <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold text-gray-800 academic-serif mb-4">
-        Get in Touch With Us
-      </h2>
-      <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-        We’d love to hear from you. Fill out the form and we’ll get back to you
-        as soon as possible. Please double-check your email.
-      </p>
-    </div>
-
-    <!-- Form Card -->
-    <div class="floating-card rounded-2xl p-10 w-full">
-
-      <form id="inquiryForm" class="space-y-8">
-
-
- <form id="inquiryForm" class="space-y-8">
-  <!-- Full Name -->
-  <div>
-    <label class="block text-gray-700 font-medium mb-1">Full Name</label>
-    <input type="text" name="name" placeholder="Full Name" required
-      class="w-full p-4 rounded-xl border border-gray-300 focus:border-blue-600 focus:outline-none" />
-  </div>
-
-  <!-- Email -->
-  <div>
-    <label class="block text-gray-700 font-medium mb-1">Email Address</label>
-    <input type="email" name="email" placeholder="Email Address" required
-      class="w-full p-4 rounded-xl border border-gray-300 focus:border-blue-600 focus:outline-none" />
-  </div>
-
-  <!-- Message -->
-  <div>
-    <label class="block text-gray-700 font-medium mb-1">Message</label>
-    <textarea name="message" rows="6" placeholder="Type your message here..." required
-      class="w-full p-4 rounded-xl border border-gray-300 focus:border-blue-600 focus:outline-none"></textarea>
-  </div>
-
-  <!-- Submit Button -->
-  <div class="flex justify-end">
-    <button type="submit"
-      class="px-10 py-4 bg-blue-600 text-white rounded-full text-lg font-semibold hover:bg-blue-700 transition">
-      Submit
-    </button>
-  </div>
-</form>
-
-
+    <div style="flex:1; display:flex; justify-content:center; min-width:300px;">
+      <img src="iphones.png" alt="Hero Image" style="width:350px; max-width:100%; object-fit:contain; border-radius:12px;">
     </div>
   </div>
 </section>
 
-
-       </div>
-      </div>
-     </div>
-    </div>
-   </section>
-
-    </div>
-   </div><!-- Advanced Search Modal -->
-   <div id="advanced-search-modal" class="fixed inset-0 login-modal flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-2xl p-8 max-w-2xl w-full mx-4 shadow-2xl max-h-[90%] overflow-y-auto">
-     <div class="flex items-center justify-between mb-6">
-      <h2 class="text-2xl font-bold text-gray-800">Advanced Search</h2><button id="close-advanced-search" class="text-gray-400 hover:text-gray-600">
-       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-       </svg></button>
-     </div>
-     <form id="advanced-search-form" class="space-y-6">
-      <div class="grid md:grid-cols-2 gap-4">
-       <div><label class="block text-sm font-medium text-gray-700 mb-2">Title</label> <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Book title">
-       </div>
-       <div><label class="block text-sm font-medium text-gray-700 mb-2">Author</label> <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Author name">
-       </div>
-      </div>
-      <div class="grid md:grid-cols-2 gap-4">
-       <div><label class="block text-sm font-medium text-gray-700 mb-2">Subject</label> <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"> <option value="">All Subjects</option> <option value="engineering">Engineering</option> <option value="business">Business</option> <option value="education">Education</option> <option value="computer-science">Computer Science</option> <option value="liberal-arts">Liberal Arts</option> </select>
-       </div>
-       <div><label class="block text-sm font-medium text-gray-700 mb-2">Publication Year</label>
-        <div class="flex space-x-2"><input type="number" placeholder="From" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"> <input type="number" placeholder="To" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+<!-- Product Catalog -->
+<section class="wrap" id="catalog">
+  <h2>Available iPhones</h2>
+  <div class="grid">
+    <div class="product">
+      <div class="media"><img src="ip11.png" alt="iPhone 11"></div>
+      <div class="info">
+        <h3>iPhone 11</h3>
+        <div class="price">₱14,990</div>
+        <div class="actions">
+          <button class="btn-sm primary add-to-cart" data-name="iPhone 11" data-price="14990">Add to Cart</button>
+          <button class="btn-sm" id="viewCert">View Certification</button>
         </div>
-       </div>
       </div>
-      <div><label class="block text-sm font-medium text-gray-700 mb-2">Resource Type</label>
-       <div class="flex flex-wrap gap-3"><label class="flex items-center"> <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"> <span class="ml-2 text-sm">Books</span> </label> <label class="flex items-center"> <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"> <span class="ml-2 text-sm">Journals</span> </label> <label class="flex items-center"> <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"> <span class="ml-2 text-sm">Thesis</span> </label> <label class="flex items-center"> <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"> <span class="ml-2 text-sm">E-books</span> </label>
-       </div>
-      </div>
-      <div class="flex space-x-4"><button type="submit" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"> Search </button> <button type="button" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"> Reset </button>
-      </div>
-     </form>
     </div>
-   </div><!-- Footer -->
-   <footer class="bg-gray-800 text-white py-12">
-    <div class="max-w-7xl mx-auto px-4">
-     <div class="grid md:grid-cols-4 gap-8">
-      <div>
-    <div class="flex items-center space-x-3 mb-4">
-  <div class="w-10 h-13 bg-blue-600 rounded-full flex items-center justify-center overflow-hidden">
-    <img src="URS.jpg" alt="URS" class="w-full h-full object-cover">
 
-        </div><span class="font-semibold">URS Morong Library</span>
-       </div>
-       <p id="footer-text" class="text-gray-300 text-sm">Nurturing Tomorrow's Noblest.</p>
+    <div class="product">
+      <div class="media"><img src="ip12.png" alt="iPhone 12"></div>
+      <div class="info">
+        <h3>iPhone 12</h3>
+        <div class="price">₱18,990</div>
+        <div class="actions">
+          <button class="btn-sm primary add-to-cart" data-name="iPhone 12" data-price="18990">Add to Cart</button>
+          <button class="btn-sm" id="viewCert2">View Certification</button>
+        </div>
       </div>
-      <div>
-       <h4 class="font-semibold mb-4">Quick Links</h4>
-       <ul class="space-y-2 text-sm text-gray-300">
-        <li><a href="#" class="hover:text-white transition-colors">Home</a></li>
-        <li><a href="#" class="hover:text-white transition-colors">About</a></li>
-        <li><a href="#" class="hover:text-white transition-colors">Collections</a></li>
-        <li><a href="#" class="hover:text-white transition-colors">Help</a></li>
-       </ul>
-      </div>
-      <div>
-
-      </div>
-      <div>
-       <h4 class="font-semibold mb-4">Contact</h4>
-       <div class="space-y-2 text-sm text-gray-300">
-        <p>📍 URS Morong Campus</p>
-        <p>📞 (02) 8539-9950</p>
-        <p>✉️ univlibservices@urs.edu.ph</p>
-        <p>🕒 Mon-Fri: 8AM-5PM</p>
-       </div>
-      </div>
-     </div>
-     <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
-      <p>© 2025 University of Rizal System - Morong Campus. All rights reserved.</p>
-     </div>
     </div>
-   </footer>
-  </main>
-  <script>
-    
-    const defaultConfig = {
-        library_title: "URS Morong Digital Library",
-        welcome_message: "Discover Knowledge, Inspire Learning, Transform Lives",
-        search_placeholder: "Search books, authors, subjects...",
-        footer_text: "Empowering students and faculty with comprehensive digital resources and academic support services.",
-        primary_color: "#003366",
-        secondary_color: "#0066cc",
-        accent_color: "#004499",
-        text_color: "#1f2937",
-        background_color: "#f9fafb"
-    };
 
-    // Global state
-    let currentUser = null;
-    let bookmarks = [];
-    let isLoggedIn = false;
+    <div class="product">
+      <div class="media"><img src="ip13.png" alt="iPhone 13"></div>
+      <div class="info">
+        <h3>iPhone 13</h3>
+        <div class="price">₱23,990</div>
+        <div class="actions">
+          <button class="btn-sm primary add-to-cart" data-name="iPhone 13" data-price="23990">Add to Cart</button>
+          <button class="btn-sm" id="viewCert3">View Certification</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    async function onConfigChange(config) {
-        // Update text content
-        const titleElement = document.getElementById('library-title');
-        if (titleElement) {
-            titleElement.textContent = config.library_title || defaultConfig.library_title;
-        }
+<!-- Checkout -->
+<section class="wrap" id="checkoutSection" style="display:none; margin-top:40px;">
+  <h2>Checkout</h2>
+  <form id="checkoutForm" class="floating-card">
+    <div>
+      <label>Full Name</label>
+      <input type="text" name="name" placeholder="Full Name" required />
+    </div>
+    <div>
+      <label>Email</label>
+      <input type="email" name="email" placeholder="Email" required />
+    </div>
+    <div>
+      <label>Shipping Address</label>
+      <input type="text" name="address" placeholder="Full Address" required />
+    </div>
+    <div>
+      <label>Payment Method</label>
+      <select name="payment" required>
+        <option value="">Select Payment</option>
+        <option value="GCash">GCash</option>
+        <option value="COD">Cash on Delivery</option>
+      </select>
+    </div>
+    <div style="text-align:right; margin-top:20px;">
+      <button type="submit" class="btn btn-primary">Place Order</button>
+    </div>
+  </form>
+</section>
 
-        const welcomeElement = document.getElementById('welcome-message');
-        if (welcomeElement) {
-            welcomeElement.textContent = config.welcome_message || defaultConfig.welcome_message;
-        }
+<!-- Cart Page -->
+<section class="wrap" id="cartPage" style="display:none; margin-top:60px;">
+  <h2>Your Cart</h2>
+  <table style="width:100%; border-collapse:collapse; margin-bottom:20px;">
+    <thead>
+      <tr style="background:#1a1d2f; color:white;">
+        <th style="padding:12px; border:1px solid #333;">Product</th>
+        <th style="padding:12px; border:1px solid #333;">Price</th>
+        <th style="padding:12px; border:1px solid #333;">Quantity</th>
+        <th style="padding:12px; border:1px solid #333;">Subtotal</th>
+      </tr>
+    </thead>
+    <tbody id="cartTableBody"></tbody>
+  </table>
 
-        const searchInput = document.getElementById('search-input');
-        if (searchInput) {
-            searchInput.placeholder = config.search_placeholder || defaultConfig.search_placeholder;
-        }
+  <div style="display:flex; flex-wrap:wrap; gap:20px; align-items:center;">
+    <div>
+      <input type="text" placeholder="Coupon code" style="padding:10px; border-radius:8px; border:1px solid #444; background:#0f1220; color:white;">
+      <button class="btn-sm primary" style="margin-left:10px;">Apply Coupon</button>
+    </div>
+    <div style="margin-left:auto; text-align:right;">
+      <p style="font-weight:600;">Subtotal: ₱<span id="cartSubtotal">0</span></p>
+      <p style="font-weight:600;">Total: ₱<span id="cartTotal">0</span></p>
+      <button id="checkoutBtn" class="btn btn-primary" style="margin-top:10px;">Proceed to Checkout</button>
+    </div>
+  </div>
+</section>
 
-        const footerElement = document.getElementById('footer-text');
-        if (footerElement) {
-            footerElement.textContent = config.footer_text || defaultConfig.footer_text;
-        }
+<!-- Benefits -->
+<section class="wrap" id="benefits">
+  <h2>Why Choose Us</h2>
+  <div class="benefits">
+    <div class="card"><h3>Certified Diagnostics</h3><p>Every device passes a 20‑point check: Face/Touch ID, cameras, speakers, sensors, and connectivity.</p></div>
+    <div class="card"><h3>Transparent Parts</h3><p>Original vs. replaced parts disclosed with photos and condition grades (A/B/C).</p></div>
+    <div class="card"><h3>Warranty & Support</h3><p>7‑day replacement, 90‑day repair coverage, and fast chat support.</p></div>
+  </div>
+</section>
 
-        // Update colors
-        const primaryColor = config.primary_color || defaultConfig.primary_color;
-        const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
-        const accentColor = config.accent_color || defaultConfig.accent_color;
-        const textColor = config.text_color || defaultConfig.text_color;
-        const backgroundColor = config.background_color || defaultConfig.background_color;
+<!-- Testimonials -->
+<section class="wrap" id="testimonials">
+  <h2>What Our Customers Say</h2>
+  <div class="testimonials">
+    <div class="quote">“Battery at 89%, Face ID flawless—felt brand‑new.”</div>
+    <div class="quote">“Honest grading, fast delivery, and the unboxing felt premium.”</div>
+    <div class="quote">“Affordable yet reliable. Perfect for students and freelancers.”</div>
+  </div>
+</section>
 
-        // Apply colors to various elements
-        document.body.style.backgroundColor = backgroundColor;
-        document.body.style.color = textColor;
+<!-- FAQ -->
+<section class="wrap" id="faq">
+  <h2>Frequently Asked Questions</h2>
+  <div class="faq">
+    <div class="faq-item"><h3>Are devices iCloud unlocked?</h3><p>Yes, verified before listing.</p></div>
+    <div class="faq-item"><h3>Can I test on delivery?</h3><p>Yes, optional doorstep check with courier waiting time.</p></div>
+    <div class="faq-item"><h3>Do you certify water resistance?</h3><p>No, we don’t certify water resistance on second‑hand devices.</p></div>
+  </div>
+</section>
 
-        // Update header gradient
-        const header = document.querySelector('header');
-        if (header) {
-            header.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 50%, ${primaryColor} 100%)`;
-        }
+<!-- Footer -->
+<footer id="contact">
+  <p>© 2025 Premium Pre‑Loved iPhones — Honest, certified, and fairly priced.</p>
+  <p>
+    <a href="#catalog">Browse Available iPhones</a> | 
+    <a href="#faq">FAQ</a> | 
+    <a href="#contact">Contact Us</a> 
+  </p>
+  <p>Follow us on 
+    <a href="#">Facebook</a>, 
+    <a href="#">Instagram</a>, 
+    <a href="#">Twitter</a>
+  </p>
+</footer>
 
-        // Update button colors
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach(button => {
-            if (button.classList.contains('bg-blue-600')) {
-                button.style.backgroundColor = primaryColor;
-            }
-        });
+<!-- Modal Checklist -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <span class="close" id="closeModal">×</span>
+    <h3>20‑Point Certification Checklist</h3>
+    <ul>
+      <li>✔ Battery health verified</li>
+      <li>✔ Face/Touch ID tested</li>
+      <li>✔ Cameras focus check</li>
+      <li>✔ Speakers & mic clarity</li>
+      <li>✔ Wi‑Fi/5G connectivity</li>
+      <li>✔ Original/replaced parts disclosed</li>
+      <li>✔ Charging port inspected</li>
+      <li>✔ Sensors tested (proximity, ambient, haptics)</li>
+      <li>✔ GPS & Bluetooth verified</li>
+      <li>✔ Frame & buttons inspected</li>
+      <li>✔ Back glass condition checked</li>
+      <li>✔ Lens scratches noted</li>
+      <li>✔ Water indicators inspected</li>
+    </ul>
+  </div>
+</div>
 
-        // Update accent elements
-        const accentElements = document.querySelectorAll('.text-green-600, .bg-green-100');
-        accentElements.forEach(element => {
-            if (element.classList.contains('text-green-600')) {
-                element.style.color = accentColor;
-            }
-            if (element.classList.contains('bg-green-100')) {
-                element.style.backgroundColor = accentColor + '20';
-            }
-        });
-    }
+<script>
+  // --- CART SYSTEM ---
+  let cartItems = [];
+  const cartDisplay = document.getElementById('cart');
+  const addButtons = document.querySelectorAll('.add-to-cart');
+  const checkoutForm = document.getElementById('checkoutForm');
 
-    function mapToCapabilities(config) {
-        return {
-            recolorables: [
-                {
-                    get: () => config.primary_color || defaultConfig.primary_color,
-                    set: (value) => {
-                        config.primary_color = value;
-                        window.elementSdk.setConfig({ primary_color: value });
-                    }
-                },
-                {
-                    get: () => config.secondary_color || defaultConfig.secondary_color,
-                    set: (value) => {
-                        config.secondary_color = value;
-                        window.elementSdk.setConfig({ secondary_color: value });
-                    }
-                },
-                {
-                    get: () => config.accent_color || defaultConfig.accent_color,
-                    set: (value) => {
-                        config.accent_color = value;
-                        window.elementSdk.setConfig({ accent_color: value });
-                    }
-                },
-                {
-                    get: () => config.text_color || defaultConfig.text_color,
-                    set: (value) => {
-                        config.text_color = value;
-                        window.elementSdk.setConfig({ text_color: value });
-                    }
-                },
-                {
-                    get: () => config.background_color || defaultConfig.background_color,
-                    set: (value) => {
-                        config.background_color = value;
-                        window.elementSdk.setConfig({ background_color: value });
-                    }
-                }
-            ],
-            borderables: [],
-            fontEditable: {
-                get: () => config.font_family || 'Inter',
-                set: (value) => {
-                    config.font_family = value;
-                    window.elementSdk.setConfig({ font_family: value });
-                }
-            },
-            fontSizeable: {
-                get: () => config.font_size || 16,
-                set: (value) => {
-                    config.font_size = value;
-                    window.elementSdk.setConfig({ font_size: value });
-                }
-            }
-        };
-    }
-
-    function mapToEditPanelValues(config) {
-        return new Map([
-            ["library_title", config.library_title || defaultConfig.library_title],
-            ["welcome_message", config.welcome_message || defaultConfig.welcome_message],
-            ["search_placeholder", config.search_placeholder || defaultConfig.search_placeholder],
-            ["footer_text", config.footer_text || defaultConfig.footer_text]
-        ]);
-    }
-
-    // Data SDK Handler
-    const dataHandler = {
-        onDataChanged(data) {
-            bookmarks = data;
-            updateBookmarkCount();
-            renderBookmarks();
-        }
-    };
-
-    // Initialize SDKs
-    async function initializeApp() {
-        // Initialize Element SDK
-        if (window.elementSdk) {
-            window.elementSdk.init({
-                defaultConfig,
-                onConfigChange,
-                mapToCapabilities,
-                mapToEditPanelValues
-            });
-        }
-
-        // Initialize Data SDK
-        if (window.dataSdk) {
-            const result = await window.dataSdk.init(dataHandler);
-            if (!result.isOk) {
-                console.error('Failed to initialize Data SDK');
-            }
-        }
-    }
-
-    // Bookmark functions
-    function updateBookmarkCount() {
-        const countElement = document.getElementById('bookmark-count');
-        if (bookmarks.length > 0) {
-            countElement.textContent = bookmarks.length;
-            countElement.classList.remove('hidden');
-        } else {
-            countElement.classList.add('hidden');
-        }
-    }
-
-    function renderBookmarks() {
-        const bookmarksList = document.getElementById('bookmarks-list');
-        
-        if (bookmarks.length === 0) {
-            bookmarksList.innerHTML = `
-                <div class="text-center py-8 text-gray-500">
-                    <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-                    </svg>
-                    <p>No bookmarks yet</p>
-                    <p class="text-sm">Start exploring and save your favorite books!</p>
-                </div>
-            `;
-            return;
-        }
-
-        bookmarksList.innerHTML = bookmarks.map(bookmark => `
-            <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors">
-                <div class="flex justify-between items-start mb-2">
-                    <h4 class="font-semibold text-gray-800 text-sm">${bookmark.book_title}</h4>
-                    <div class="flex space-x-2">
-                        <button class="favorite-btn text-gray-400 hover:text-yellow-500 transition-colors" data-id="${bookmark.__backendId}">
-                            <svg class="w-4 h-4 ${bookmark.is_favorite ? 'text-yellow-500 fill-current' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
-                            </svg>
-                        </button>
-                        <button class="remove-bookmark text-gray-400 hover:text-red-500 transition-colors" data-id="${bookmark.__backendId}">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <p class="text-gray-600 text-xs mb-2">${bookmark.author}</p>
-                <div class="flex justify-between items-center text-xs text-gray-500">
-                    <span class="bg-gray-100 px-2 py-1 rounded">${bookmark.category}</span>
-                    <span>${new Date(bookmark.date_bookmarked).toLocaleDateString()}</span>
-                </div>
-                ${bookmark.reading_progress > 0 ? `
-                    <div class="mt-2">
-                        <div class="flex justify-between text-xs text-gray-500 mb-1">
-                            <span>Reading Progress</span>
-                            <span>${bookmark.reading_progress}%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div class="bg-blue-600 h-2 rounded-full" style="width: ${bookmark.reading_progress}%"></div>
-                        </div>
-                    </div>
-                ` : ''}
-            </div>
-        `).join('');
-
-        // Add event listeners for bookmark actions
-        document.querySelectorAll('.favorite-btn').forEach(btn => {
-            btn.addEventListener('click', toggleFavorite);
-        });
-
-        document.querySelectorAll('.remove-bookmark').forEach(btn => {
-            btn.addEventListener('click', removeBookmark);
-        });
-    }
-
-    async function addBookmark(bookTitle, author, category) {
-        if (!isLoggedIn) {
-            showToast('Please login to bookmark items', 'error');
-            return;
-        }
-
-        if (bookmarks.length >= 999) {
-            showToast('Maximum limit of 999 bookmarks reached. Please remove some bookmarks first.', 'error');
-            return;
-        }
-
-        const bookmark = {
-            id: Date.now().toString(),
-            user_id: currentUser?.id || 'guest',
-            book_title: bookTitle,
-            author: author,
-            category: category,
-            date_bookmarked: new Date().toISOString(),
-            reading_progress: 0,
-            notes: '',
-            is_favorite: false
-        };
-
-        if (window.dataSdk) {
-            const result = await window.dataSdk.create(bookmark);
-            if (result.isOk) {
-                showToast('Bookmark added successfully!', 'success');
-            } else {
-                showToast('Failed to add bookmark', 'error');
-            }
-        }
-    }
-
-    async function toggleFavorite(event) {
-        const bookmarkId = event.currentTarget.dataset.id;
-        const bookmark = bookmarks.find(b => b.__backendId === bookmarkId);
-        
-        if (bookmark && window.dataSdk) {
-            bookmark.is_favorite = !bookmark.is_favorite;
-            const result = await window.dataSdk.update(bookmark);
-            if (!result.isOk) {
-                showToast('Failed to update favorite status', 'error');
-            }
-        }
-    }
-
-    async function removeBookmark(event) {
-        const bookmarkId = event.currentTarget.dataset.id;
-        const bookmark = bookmarks.find(b => b.__backendId === bookmarkId);
-        
-        if (bookmark && window.dataSdk) {
-            const result = await window.dataSdk.delete(bookmark);
-            if (result.isOk) {
-                showToast('Bookmark removed', 'success');
-            } else {
-                showToast('Failed to remove bookmark', 'error');
-            }
-        }
-    }
-
-    function showToast(message, type = 'info') {
-        const toast = document.createElement('div');
-        toast.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white z-50 transition-all duration-300 ${
-            type === 'success' ? 'bg-green-500' : 
-            type === 'error' ? 'bg-red-500' : 'bg-blue-500'
-        }`;
-        toast.textContent = message;
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 300);
-        }, 3000);
-    }
-
-    function login(studentId, password) {
-        // Simulate login process
-        currentUser = {
-            id: studentId,
-            name: studentId.startsWith('2') ? 'Student User' : 'Faculty User',
-            type: studentId.startsWith('2') ? 'student' : 'faculty'
-        };
-        
-        isLoggedIn = true;
-        
-        // Update UI
-        document.getElementById('login-btn').classList.add('hidden');
-        document.getElementById('user-actions').classList.remove('hidden');
-        document.getElementById('user-name').textContent = currentUser.name;
-        document.getElementById('user-initial').textContent = currentUser.name.charAt(0);
-        
-        // Close modal
-        document.getElementById('login-modal').classList.add('hidden');
-        
-        showToast(`Welcome back, ${currentUser.name}!`, 'success');
-    }
-
-    function logout() {
-        currentUser = null;
-        isLoggedIn = false;
-        bookmarks = [];
-        
-        // Update UI
-        document.getElementById('login-btn').classList.remove('hidden');
-        document.getElementById('user-actions').classList.add('hidden');
-        document.getElementById('user-name').textContent = 'Guest User';
-        document.getElementById('user-initial').textContent = 'U';
-        
-        // Close bookmarks panel
-        document.getElementById('bookmarks-panel').classList.add('translate-x-full');
-        
-        showToast('Logged out successfully', 'success');
-    }
-
-    // Smooth scrolling navigation
-    function initializeNavigation() {
-        const navLinks = document.querySelectorAll('.nav-link');
-        
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                
-                if (targetId === '#home') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    const targetSection = document.querySelector(targetId);
-                    if (targetSection) {
-                        const offsetTop = targetSection.offsetTop - 80; // Account for fixed header
-                        window.scrollTo({ top: offsetTop, behavior: 'smooth' });
-                    }
-                }
-                
-                // Update active nav state
-                navLinks.forEach(nav => nav.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-        
-        // Highlight active section on scroll
-        window.addEventListener('scroll', function() {
-            const sections = ['about', 'collections', 'services', 'learning-spaces', 'satellite'];
-            const scrollPos = window.scrollY + 100;
-            
-            sections.forEach(sectionId => {
-                const section = document.getElementById(sectionId);
-                const navLink = document.querySelector(`a[href="#${sectionId}"]`);
-                
-                if (section && navLink) {
-                    const sectionTop = section.offsetTop;
-                    const sectionBottom = sectionTop + section.offsetHeight;
-                    
-                    if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
-                        navLinks.forEach(nav => nav.classList.remove('active'));
-                        navLink.classList.add('active');
-                    }
-                }
-            });
-            
-            // Handle home section
-            if (window.scrollY < 200) {
-                navLinks.forEach(nav => nav.classList.remove('active'));
-                document.querySelector('a[href="#home"]').classList.add('active');
-            }
-        });
-    }
-
-    // Initialize app
-    initializeApp();
-
-    // Add interactive functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize navigation
-        initializeNavigation();
-        
-        // Login functionality
-        document.getElementById('login-btn').addEventListener('click', () => {
-            document.getElementById('login-modal').classList.remove('hidden');
-        });
-
-        document.getElementById('close-modal').addEventListener('click', () => {
-            document.getElementById('login-modal').classList.add('hidden');
-        });
-
-        document.getElementById('login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const studentId = document.getElementById('student-id').value;
-            const password = document.getElementById('password').value;
-            
-            if (studentId && password) {
-                login(studentId, password);
-            }
-        });
-
-        document.getElementById('logout-btn').addEventListener('click', logout);
-
-        // Bookmarks functionality
-        document.getElementById('bookmarks-btn').addEventListener('click', () => {
-            if (isLoggedIn) {
-                document.getElementById('bookmarks-panel').classList.toggle('translate-x-full');
-            } else {
-                showToast('Please login to access your bookmarks', 'error');
-            }
-        });
-
-        document.getElementById('close-bookmarks').addEventListener('click', () => {
-            document.getElementById('bookmarks-panel').classList.add('translate-x-full');
-        });
-
-        // Bookmark buttons
-        document.querySelectorAll('.bookmark-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const bookTitle = btn.dataset.book;
-                const author = btn.dataset.author;
-                const category = btn.dataset.category;
-                addBookmark(bookTitle, author, category);
-            });
-        });
-
-        // Advanced search
-        document.getElementById('advanced-search-btn').addEventListener('click', () => {
-            document.getElementById('advanced-search-modal').classList.remove('hidden');
-        });
-
-        document.getElementById('close-advanced-search').addEventListener('click', () => {
-            document.getElementById('advanced-search-modal').classList.add('hidden');
-        });
-
-        document.getElementById('advanced-search-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            showToast('Advanced search functionality coming soon!', 'info');
-            document.getElementById('advanced-search-modal').classList.add('hidden');
-        });
-
-        // Search functionality
-        const searchInput = document.getElementById('search-input');
-        const searchButton = document.getElementById('search-btn');
-        
-        function performSearch() {
-            const query = searchInput.value.trim();
-            if (query) {
-                searchButton.textContent = 'Searching...';
-                searchButton.disabled = true;
-                
-                setTimeout(() => {
-                    searchButton.textContent = 'Search';
-                    searchButton.disabled = false;
-                    showToast(`Found 42 results for "${query}"`, 'success');
-                }, 1000);
-            }
-        }
-        
-        searchButton.addEventListener('click', performSearch);
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
-
-        // Tag click functionality
-        const tags = document.querySelectorAll('.px-4.py-2.rounded-full');
-        tags.forEach(tag => {
-            tag.addEventListener('click', function() {
-                searchInput.value = this.textContent;
-                performSearch();
-            });
-        });
-
-        // Book spine hover effects
-        const bookSpines = document.querySelectorAll('.book-animation');
-        bookSpines.forEach(book => {
-            book.addEventListener('click', function() {
-                this.style.transform = 'scale(1.1) rotateY(10deg)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 300);
-            });
-        });
-
-        // Bookmark filter functionality
-        document.querySelectorAll('.bookmark-filter').forEach(filter => {
-            filter.addEventListener('click', function() {
-                document.querySelectorAll('.bookmark-filter').forEach(f => {
-                    f.classList.remove('active', 'bg-blue-100', 'text-blue-700');
-                    f.classList.add('bg-gray-100', 'text-gray-700');
-                });
-                
-                this.classList.add('active', 'bg-blue-100', 'text-blue-700');
-                this.classList.remove('bg-gray-100', 'text-gray-700');
-                
-                // Filter logic would go here
-                const filter = this.dataset.filter;
-                showToast(`Filtering by: ${filter}`, 'info');
-            });
-        });
-
-        // Close modals when clicking outside
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('login-modal')) {
-                e.target.classList.add('hidden');
-            }
-        });
+  // Add product to cart
+  addButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.getAttribute('data-name');
+      const price = parseInt(btn.getAttribute('data-price'));
+      const existingItem = cartItems.find(i => i.name === name);
+      if (existingItem) {
+        existingItem.units += 1;
+      } else {
+        cartItems.push({ name, price, units: 1 });
+      }
+      cartDisplay.textContent = `🛒 Cart (${cartItems.reduce((a,i)=>a+i.units,0)})`;
+      alert(`${name} added to cart!`);
     });
-    const form = document.getElementById('inquiryForm');
+  });
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault(); // prevent default form submission
+  // Render cart items in table
+  function updateCartTable() {
+    const tbody = document.getElementById('cartTableBody');
+    const subtotalEl = document.getElementById('cartSubtotal');
+    const totalEl = document.getElementById('cartTotal');
+    tbody.innerHTML = '';
+    let subtotal = 0;
+    cartItems.forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td style="padding:12px; border:1px solid #333;">${item.name}</td>
+        <td style="padding:12px; border:1px solid #333;">₱${item.price}</td>
+        <td style="padding:12px; border:1px solid #333;">${item.units}</td>
+        <td style="padding:12px; border:1px solid #333;">₱${item.price * item.units}</td>
+      `;
+      tbody.appendChild(row);
+      subtotal += item.price * item.units;
+    });
+    subtotalEl.textContent = subtotal;
+    totalEl.textContent = subtotal;
+  }
 
-    emailjs.sendForm('service_3yf7sod', 'template_vklgizx', this)
-      .then(() => {
-        alert('Your message has been sent successfully!');
-        form.reset(); // clear the form
-      }, (error) => {
-        alert('Oops! Something went wrong. Please try again.');
-        console.error('EmailJS error:', error);
+  // Show cart page on cart icon click
+  cartDisplay.addEventListener('click', () => {
+    updateCartTable();
+    document.getElementById('cartPage').style.display = 'block';
+    document.getElementById('cartPage').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Proceed to checkout
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  checkoutBtn.addEventListener('click', () => {
+    if(cartItems.length === 0){
+      alert("Your cart is empty.");
+    } else {
+      updateCartTable();
+      document.getElementById('checkoutSection').style.display = 'block';
+      document.getElementById('checkoutSection').scrollIntoView({behavior:'smooth'});
+    }
+  });
+
+  // Checkout form submission
+  checkoutForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if(cartItems.length === 0){
+      alert("Your cart is empty!");
+      return;
+    }
+    const formData = new FormData(checkoutForm);
+    const orderId = 'ORD-' + Math.floor(Math.random() * 1000000);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const address = formData.get('address');
+    const payment = formData.get('payment');
+    const subtotal = cartItems.reduce((acc, i) => acc + (i.price * i.units), 0);
+    const total = subtotal;
+
+    const templateParams = {
+      order_id: orderId,
+      email,
+      name,
+      address,
+      payment,
+      orders: cartItems.map(item => `${item.name} x${item.units} @₱${item.price}`).join(', '),
+      total
+    };
+
+    console.log("Template Params:", templateParams);
+
+    emailjs.send("service_3yf7sod", "template_tx5pdu8", templateParams)
+      .then((response) => {
+        alert(`Thank you ${name}, your order #${orderId} has been sent!`);
+        cartItems = [];
+        cartDisplay.textContent = "🛒 Cart (0)";
+        updateCartTable();
+        checkoutForm.reset();
+        document.getElementById('checkoutSection').style.display = 'none';
+        document.getElementById('cartPage').style.display = 'none';
+      })
+      .catch((err) => {
+        console.error('EmailJS error:', err);
+        alert("Oops! Something went wrong. Please check the console for details.");
       });
   });
-
-// --- Open Library Search Integration ---
-document.getElementById("search-btn").addEventListener("click", function () {
-    const query = document.getElementById("search-input").value.trim();
-    const resultsDiv = document.getElementById("search-results");
-
-    if (!query) {
-        resultsDiv.innerHTML = "<p class='text-center text-gray-500'>Please enter a search term.</p>";
-        return;
-    }
-
-    resultsDiv.innerHTML = "<p class='text-center text-gray-500'>Searching...</p>";
-
-    fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=5`)
-        .then(res => res.json())
-        .then(data => {
-            if (!data.docs || data.docs.length === 0) {
-                resultsDiv.innerHTML = "<p class='text-center text-gray-500'>No results found.</p>";
-                return;
-            }
-
-            let html = "";
-            data.docs.forEach(book => {
-                html += `
-                    <div class="p-5 bg-white border rounded-2xl shadow-md hover:shadow-lg transition">
-                        <h3 class="text-xl font-semibold text-gray-800">${book.title}</h3>
-                        <p class="text-gray-600 mt-1 text-sm"><strong>Author:</strong> ${book.author_name ? book.author_name.join(", ") : "Unknown"}</p>
-                        <p class="text-gray-600 text-sm"><strong>First Published:</strong> ${book.first_publish_year || "N/A"}</p>
-                        ${book.key ? `<a href="https://openlibrary.org${book.key}" target="_blank" class="text-blue-600 mt-2 inline-block font-medium hover:underline">View Book →</a>` : ""}
-                    </div>
-                `;
-            });
-
-            resultsDiv.innerHTML = html;
-        })
-        .catch(err => {
-            console.error(err);
-            resultsDiv.innerHTML = "<p class='text-center text-red-500'>Error fetching results.</p>";
-        });
-});
-
-// Optional: trigger search on Enter key
-document.getElementById("search-input").addEventListener("keypress", function (e) {
-    if (e.key === "Enter") {
-        e.preventDefault();
-        document.getElementById("search-btn").click();
-    }
-});
-// Make chips interactive
-const chips = document.querySelectorAll("#home .floating-card span");
-const searchInput = document.querySelector("#search-input");
-const searchButton = document.querySelector("#search-btn");
-
-chips.forEach(chip => {
-  chip.addEventListener("click", () => {
-
-    // Remove active state from all chips
-    chips.forEach(c => 
-      c.classList.remove("bg-gray-800", "text-white")
-    );
-
-    // Add active state to clicked chip
-    chip.classList.add("bg-gray-800", "text-white");
-
-    // Put the chip text into the search bar
-    searchInput.value = chip.innerText;
-
-    // Trigger search
-    searchButton.click();
-  });
-});
-</script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99734d764318bc55',t:'MTc2MTkxNTI4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
- <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script>
-  emailjs.init("0WUHJFvOpwfXJZq8s"); // Replace with your EmailJS public key
 </script>
 
-
-
+</body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
